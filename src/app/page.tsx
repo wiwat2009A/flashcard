@@ -71,18 +71,6 @@ export default function Home() {
             </div>
           ))}
       </div>
-      <div className={"absolute "}>
-        <div className="card bg-neutral text-neutral-content w-96">
-          <div className="card-body items-center text-center">
-            <h2 className="card-title">Select mode!</h2>
-            <p>Type answer or choose answer</p>
-            <div className="card-actions justify-end">
-              <button className="btn btn-primary">Type</button>
-              <button className="btn btn-primary">Choose</button>
-            </div>
-          </div>
-        </div>
-      </div>
     </div>
   );
 }
