@@ -185,7 +185,7 @@ export default function TestPage() {
                   btnClass += " !bg-red-200";
                 }
               } else {
-                btnClass += " !bg-blue-200 hover:!bg-blue-400";
+                btnClass += " !bg-gray-600 hover:!bg-blue-400";
               }
 
               return (

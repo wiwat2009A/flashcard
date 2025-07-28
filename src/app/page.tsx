@@ -1,10 +1,11 @@
 "use client";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 
 export default function Home() {
   const [collectionName, setCollectionName] = useState<string[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
+  const [selectCollection, setSelectCollection] = useState<string>("");
   const router = useRouter();
 
   useEffect(() => {
@@ -27,11 +28,26 @@ export default function Home() {
     getQuiz();
   }, []);
 
-  function handlePlayRandomAns(collectionName: string) {
-    router.push(`lesson?collection=${encodeURIComponent(collectionName)}`);
+  function handlePlayRandomAns() {
+    let collectionName: string = selectCollection;
+    router.push(
+      `lesson/random/?collection=${encodeURIComponent(collectionName)}`
+    );
   }
 
-  function handlePlay(collectionName: string) {}
+  function handlePlayTypingAns() {
+    let collectionName: string = selectCollection;
+    router.push(
+      `lesson/typing/?collection=${encodeURIComponent(collectionName)}`
+    );
+  }
+
+  const modalRef = useRef<HTMLDialogElement>(null);
+
+  const openModal = (collectionName: string) => {
+    setSelectCollection(collectionName);
+    modalRef.current?.showModal();
+  };
   return (
     <div>
       {loading && (
@@ -62,7 +78,7 @@ export default function Home() {
                 <div className="card-actions justify-end">
                   <button
                     className="btn bg-fuchsia-400 rounded-2xl"
-                    onClick={() => handlePlayRandomAns(collectionName)}
+                    onClick={() => openModal(collectionName)}
                   >
                     Play Now!
                   </button>
@@ -70,6 +86,32 @@ export default function Home() {
               </div>
             </div>
           ))}
+      </div>
+      <div>
+        <dialog ref={modalRef} className="modal">
+          <div className="modal-box">
+            <h3 className="font-bold text-lg">Please select mode !</h3>
+            <p className="">Typing answer or Select answer</p>
+            <div className="mt-10">
+              {" "}
+              <button
+                className="btn bg-blue-500 rounded-2xl"
+                onClick={() => handlePlayTypingAns()}
+              >
+                Typing
+              </button>{" "}
+              <button
+                className="btn bg-emerald-500 rounded-2xl"
+                onClick={() => handlePlayRandomAns()}
+              >
+                Choose answer
+              </button>
+            </div>
+          </div>
+          <form method="dialog" className="modal-backdrop">
+            <button>close</button>
+          </form>
+        </dialog>
       </div>
     </div>
   );
